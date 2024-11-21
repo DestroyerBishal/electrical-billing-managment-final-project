@@ -3,10 +3,13 @@ package electricity.billing.system;
 import javax.swing.*; 
 import java.awt.*;
 import java.awt.event.*;
-public class Project extends  JFrame{ 
+public class Project extends  JFrame implements ActionListener{ 
     
-    Project(){
+    String atype,meter;
+    Project(String atype,String meter){ 
         
+        this.atype= atype;
+        this.meter= meter;
         setExtendedState(JFrame.MAXIMIZED_BOTH); 
         ImageIcon i1=new ImageIcon(ClassLoader.getSystemResource("icon/elect1.jpg"));
         Image i2 = i1.getImage().getScaledInstance(1550,850,Image.SCALE_DEFAULT);
@@ -19,7 +22,7 @@ public class Project extends  JFrame{
         
         JMenu master= new JMenu("Master"); 
         master.setForeground(Color.BLUE);
-        mb.add(master); 
+         
         
         JMenuItem newcustomer= new JMenuItem("New Customer");
         newcustomer.setFont(new Font("monospaced",Font.PLAIN,12));
@@ -27,7 +30,8 @@ public class Project extends  JFrame{
         ImageIcon icon1=new ImageIcon(ClassLoader.getSystemResource("icon/icon1.png"));
         Image image1 = icon1.getImage().getScaledInstance(20,20,Image.SCALE_DEFAULT);
         newcustomer.setIcon(new ImageIcon(image1));
-        newcustomer.setMnemonic('D');
+        newcustomer.setMnemonic('D'); 
+        newcustomer.addActionListener(this);
         newcustomer.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,ActionEvent.CTRL_MASK));
         master.add(newcustomer); 
         
@@ -37,7 +41,8 @@ public class Project extends  JFrame{
         ImageIcon icon2=new ImageIcon(ClassLoader.getSystemResource("icon/icon2.png"));
         Image image2 = icon2.getImage().getScaledInstance(20,20,Image.SCALE_DEFAULT);
         customerdetails.setIcon(new ImageIcon(image2));
-        customerdetails.setMnemonic('M');
+        customerdetails.setMnemonic('M'); 
+        customerdetails.addActionListener(this);
         customerdetails.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M,ActionEvent.CTRL_MASK));
         master.add(customerdetails); 
         
@@ -47,23 +52,25 @@ public class Project extends  JFrame{
         ImageIcon icon3=new ImageIcon(ClassLoader.getSystemResource("icon/icon3.png"));
         Image image3 = icon3.getImage().getScaledInstance(20,20,Image.SCALE_DEFAULT);
         depositedetails.setIcon(new ImageIcon(image3));
-        depositedetails.setMnemonic('N');
+        depositedetails.setMnemonic('N'); 
+        depositedetails.addActionListener(this);
         depositedetails.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,ActionEvent.CTRL_MASK));
         master.add(depositedetails); 
         
-        JMenuItem calculatebill= new JMenuItem("Bill  Details");
+        JMenuItem calculatebill= new JMenuItem("Calculate Bill");
         calculatebill.setFont(new Font("monospaced",Font.PLAIN,12));
         calculatebill.setBackground(Color.WHITE); 
         ImageIcon icon4=new ImageIcon(ClassLoader.getSystemResource("icon/icon5.png"));
         Image image4 = icon4.getImage().getScaledInstance(20,20,Image.SCALE_DEFAULT);
         calculatebill.setIcon(new ImageIcon(image4));
-        calculatebill.setMnemonic('B');
+        calculatebill.setMnemonic('B'); 
+        calculatebill.addActionListener(this);
         calculatebill.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B,ActionEvent.CTRL_MASK));
         master.add(calculatebill); 
         
         JMenu info= new JMenu("Information"); 
         info.setForeground(Color.BLUE);
-        mb.add(info);  
+          
         
         JMenuItem updateinformation= new JMenuItem("Update Information");
         updateinformation.setFont(new Font("monospaced",Font.PLAIN,12));
@@ -71,8 +78,8 @@ public class Project extends  JFrame{
         ImageIcon icon5=new ImageIcon(ClassLoader.getSystemResource("icon/icon4.png"));
         Image image5 = icon5.getImage().getScaledInstance(20,20,Image.SCALE_DEFAULT);
         updateinformation.setIcon(new ImageIcon(image5));
-        updateinformation.setMnemonic('F');
-        updateinformation.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F,ActionEvent.CTRL_MASK));
+        updateinformation.setMnemonic('P');
+        updateinformation.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,ActionEvent.CTRL_MASK));
         info.add(updateinformation);  
         
         JMenuItem viewinformation= new JMenuItem("View Information");
@@ -81,13 +88,14 @@ public class Project extends  JFrame{
         ImageIcon icon6=new ImageIcon(ClassLoader.getSystemResource("icon/icon6.png"));
         Image image6 = icon6.getImage().getScaledInstance(20,20,Image.SCALE_DEFAULT);
         viewinformation.setIcon(new ImageIcon(image6));
-        viewinformation.setMnemonic('L');
+        viewinformation.setMnemonic('L'); 
+        viewinformation.addActionListener(this);
         viewinformation.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,ActionEvent.CTRL_MASK));
         info.add(viewinformation); 
         
         JMenu user= new JMenu("User"); 
         user.setForeground(Color.BLUE);
-        mb.add(user); 
+         
         
         JMenuItem paybill= new JMenuItem("Pay Bill");
         paybill.setFont(new Font("monospaced",Font.PLAIN,12));
@@ -107,11 +115,25 @@ public class Project extends  JFrame{
         billdetails.setIcon(new ImageIcon(image8));
         billdetails.setMnemonic('B');
         billdetails.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B,ActionEvent.CTRL_MASK));
-        user.add(billdetails); 
+        user.add(billdetails);  
+        
+        JMenu report= new JMenu("Report"); 
+        report.setForeground(Color.BLUE);
+         
+        
+        JMenuItem generatebill= new JMenuItem("Generate Bill");
+        generatebill.setFont(new Font("monospaced",Font.PLAIN,12));
+        generatebill.setBackground(Color.WHITE); 
+        ImageIcon icon9=new ImageIcon(ClassLoader.getSystemResource("icon/icon7.png"));
+        Image image9 = icon9.getImage().getScaledInstance(20,20,Image.SCALE_DEFAULT);
+        generatebill.setIcon(new ImageIcon(image9));
+        generatebill.setMnemonic('G');
+        generatebill.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G,ActionEvent.CTRL_MASK));
+        report.add(generatebill);
         
         JMenu utility= new JMenu("Utility"); 
         utility.setForeground(Color.BLUE);
-        mb.add(utility); 
+        
         
         JMenuItem notepad= new JMenuItem("Notepad");
         notepad.setFont(new Font("monospaced",Font.PLAIN,12));
@@ -135,7 +157,7 @@ public class Project extends  JFrame{
          
         JMenu mexit= new JMenu("Exit"); 
         mexit.setForeground(Color.BLUE);
-        mb.add(mexit); 
+         
         
         JMenuItem exit= new JMenuItem("Exit");
         exit.setFont(new Font("monospaced",Font.PLAIN,12));
@@ -147,16 +169,37 @@ public class Project extends  JFrame{
         exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W,ActionEvent.CTRL_MASK));
         mexit.add(exit); 
         
+        if(atype.equals("Admin")){
+        mb.add(master);
+        }else{
+            mb.add(info);
+            mb.add(report);
+            mb.add(user);
+        }
+        mb.add(utility); 
+        mb.add(mexit);
+        
         setLayout(new FlowLayout());
-        
-        
-        
-        setVisible(true);
-        
-    
+        setVisible(true); 
     }
-public static void main(String[] args){
-    new Project();
-}
-     
+        public void actionPerformed(ActionEvent ae) {   
+            String msg=ae.getActionCommand();
+            if(msg.equals("New Customer")) 
+            {  
+                new NewCustomer();
+                
+            } else if ( msg.equals("Customer Details")){ 
+                new CustomerDetails();
+            } else if (msg.equals("Deposite Details")){ 
+                new DepositeDetails();
+            } else if(msg.equals("Calculate Bill")){ 
+                new CalculateBill();
+            }else if (msg.equals("View Information")){
+                new ViewInformation(meter);
+            }
+            
+        }
+        public static void main(String[] args){
+            new Project("","");
+   }
 }

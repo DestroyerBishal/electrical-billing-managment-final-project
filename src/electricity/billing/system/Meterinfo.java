@@ -6,11 +6,12 @@ import java.awt.event.*;
 
 public class Meterinfo extends JFrame implements ActionListener { 
     
-    JTextField tfname,tfaddress,tfstate,tfcity,tfemail,tfphone; 
-    JButton next,cancel; 
+    JButton next;
     JLabel lblmeter; 
-    Choice meterlocation,metertype,Phasecode,billtype;
-    Meterinfo(){ 
+    Choice meterlocation,metertype,Phasecode,billtype; 
+    String meternumber;
+    Meterinfo(String meternumber){  
+        this.meternumber=meternumber;
         setSize(700,500); 
         setLocation(400,200);  
         
@@ -28,7 +29,7 @@ public class Meterinfo extends JFrame implements ActionListener {
         lblname.setBounds(100,80,100,20); 
         p.add(lblname); 
         
-        JLabel lblmeternumber=new JLabel();
+        JLabel lblmeternumber=new JLabel(meternumber);
         lblmeternumber.setBounds(240,80,100,20); 
         p.add(lblmeternumber); 
         
@@ -83,13 +84,13 @@ public class Meterinfo extends JFrame implements ActionListener {
         billtype.setBounds(240,240,200,20);
         p.add(billtype); 
         
-        JLabel lblemail=new JLabel("Days");
-        lblemail.setBounds(100,280,100,20); 
-        p.add(lblemail);
+        JLabel lbldays=new JLabel("Days");
+        lbldays.setBounds(100,280,100,20); 
+        p.add(lbldays);
         
-        JLabel lblphone=new JLabel("30 Days");
-        lblphone.setBounds(240,320,100,20); 
-        p.add(lblphone); 
+        JLabel lbl30days=new JLabel("30 Days");
+        lbl30days.setBounds(240,280,100,20); 
+        p.add(lbl30days); 
         
         JLabel lblnotes=new JLabel("Notes");
         lblnotes.setBounds(100,320,100,20); 
@@ -99,23 +100,13 @@ public class Meterinfo extends JFrame implements ActionListener {
         lblnotes1.setBounds(240,320,500,20); 
         p.add(lblnotes1);
         
-        
-        
-
-        
-        next=new JButton("Next"); 
-        next.setBounds(120,390,100,25); 
+        next=new JButton("Submit"); 
+        next.setBounds(220,390,100,25); 
         next.setBackground(Color.BLACK);
         next.setForeground(Color.WHITE);
         next.addActionListener(this);
         p.add(next);  
-        
-        cancel=new JButton("Cancel"); 
-        cancel.setBounds(250,390,100,25);
-        cancel.setBackground(Color.BLACK);
-        cancel.setForeground(Color.WHITE);
-        cancel.addActionListener(this);
-        p.add(cancel);  
+          
         
         setLayout(new BorderLayout()); 
         
@@ -134,24 +125,23 @@ public class Meterinfo extends JFrame implements ActionListener {
     }
         public void actionPerformed(ActionEvent ae){ 
             if(ae.getSource()== next){ 
-                String name=tfname.getText(); 
-                String meter=lblmeter.getText();
-                String address=tfaddress.getText();
-                String city=tfcity.getText();
-                String state=tfstate.getText(); 
-                String email=tfemail.getText();
-                String phone=tfphone.getText(); 
+                String meter=meternumber; 
+                String location=meterlocation.getSelectedItem();
+                String type=metertype.getSelectedItem();
+                String code=Phasecode.getSelectedItem();
+                String typebill= billtype.getSelectedItem();
+                String days="30";
                 
-            String query1="insert into customer values('"+name+"','"+meter+"','"+address+"','"+city+"','"+state+"','"+email+"','"+phone+"')";
-            String query2="insert into login values('"+meter+"','','"+name+"','','')";  
+            String query="insert into meter_info values('"+meter+"','"+location+"','"+type+"','"+code+"','"+typebill+"','"+days+"')";
             
             try{
                 Conn c=new Conn(); 
-                c.s.executeUpdate(query1); 
-                c.s.executeUpdate(query2); 
+                c.s.executeUpdate(query); 
+               
                 
-                JOptionPane.showMessageDialog(null, "Customer Detail Added Successfully");  
-                setVisible(false);
+                JOptionPane.showMessageDialog(null, "Meter Information Added Successfully");  
+                setVisible(false); 
+                
             } catch(Exception e){ 
                 e.printStackTrace();
             }
@@ -161,7 +151,7 @@ public class Meterinfo extends JFrame implements ActionListener {
     }
      
     public static void main(String[] args){ 
-        new Meterinfo();
+        new Meterinfo("");
     
     }
 }
